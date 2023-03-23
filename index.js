@@ -16,6 +16,10 @@ app.use(cors());
 app.use(express.json());
 app.use('/', express.static(__dirname + '/client')); // Serves resources from client folder
 
+
+let chatHistory = [];
+
+
 // Set up Multer to handle file uploads
 const upload = multer({
     storage: multer.diskStorage({
@@ -68,6 +72,10 @@ app.post('/get-prompt-result', async (req, res) => {
     }
 
     try {
+
+        let result;
+
+
         // Use the OpenAI SDK to create a completion
         // with the given prompt, model and maximum tokens
         if (model === 'image') {
@@ -79,13 +87,28 @@ app.post('/get-prompt-result', async (req, res) => {
             return res.send(result.data.data[0].url);
         }
         if (model === 'chatgpt') {
+            const lastMessage = chatHistory[chatHistory.length - 1];
+            const messages = lastMessage
+            ? [
+                { role: 'user', content: lastMessage.userMessage },
+                { role: 'model', content: lastMessage.modelResponse },
+                { role: 'user', content: prompt },
+              ]
+            : [{ role: 'user', content: prompt }];
+
+
             const result = await openai.createChatCompletion({
                 model:"gpt-3.5-turbo",
-                messages: [
-                    { role: "user", content: prompt }
-                ]
-            })
-            return res.send(result.data.choices[0]?.message?.content);
+                messages,
+            });
+
+            // Save the chat history
+            chatHistory.push({
+                userMessage: prompt,
+                modelResponse: result.data.choices[0]?.text,
+            });
+
+            return res.send(result.data.choices[0]?.message?.content, chatHistory);
         }
         const completion = await openai.createCompletion({
             model: model === 'gpt' ? "text-davinci-003" : 'code-davinci-002', // model name
