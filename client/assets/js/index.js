@@ -9,16 +9,19 @@ const promptInput = document.getElementById('prompt-input');
 const modelSelect = document.getElementById('model-select');
 const responseList = document.getElementById('response-list');
 const fileInput = document.getElementById("whisper-file");
+const contextSelect = document.getElementById('context-select-container');
 
 modelSelect.addEventListener("change", function() {
-    if (modelSelect.value === "whisper") {
-        fileInput.style.display = "block";
-        // Disable the input field when Whisper is selected
-        promptInput.style.display = 'none';
+    if (modelSelect.value === "whisper" || modelSelect.value === "chatgpt") {
+        // used for whisper, temp disabled
+        //fileInput.style.display = "block";
+        //promptInput.style.display = 'none';
+        contextSelect.style.display = 'block';
     } else {
         fileInput.style.display = "none";
         // Enable the input field when Whisper is not selected
         promptInput.style.display = 'block';
+        contextSelect.style.display = 'none';
     }
 });
 

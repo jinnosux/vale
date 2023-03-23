@@ -149,9 +149,17 @@ select {
     pointer-events: none;
 }
 
+.model-select-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
 #model-select-container {
     color: white;
 }
+
 
 #model-select-container label {
     font-size: 16px;
@@ -173,6 +181,31 @@ select {
     background: rgba(32,33,35,.5);
 }
 
+#context-select-container {
+    color: white;
+}
+
+
+#context-select-container label {
+    font-size: 16px;
+    padding: 10px;
+}
+
+#context-select-container select {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: white;
+}
+
+#context-select-container select option:not(:checked) {
+    background: rgba(32,33,35,.8);
+}
+
+#context-select-container select option {
+    background: rgba(32,33,35,.5);
+}
+
 #model-select {
     font-size: 16px;
     padding: 10px;
@@ -185,6 +218,23 @@ select {
   }
   
   #model-select option {
+    font-size: 16px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
+
+  #context-select {
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    margin-bottom: 20px;
+  }
+  
+  #context-select option {
     font-size: 16px;
     padding: 10px;
     border-bottom: 1px solid #ccc;
