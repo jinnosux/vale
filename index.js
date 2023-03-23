@@ -61,8 +61,6 @@ app.post('/get-prompt-result', async (req, res) => {
     // Get the prompt from the request body
     const {prompt, model = 'gpt'} = req.body;
 
-    let conversationHistory = [];
-
     // Check if prompt is present in the request
     if (!prompt) {
         // Send a 400 status code and a message indicating that the prompt is missing
@@ -81,23 +79,12 @@ app.post('/get-prompt-result', async (req, res) => {
             return res.send(result.data.data[0].url);
         }
         if (model === 'chatgpt') {
-
-            const messages = [
-                ...conversationHistory,
-                { role: "user", content: prompt }
-            ];
-
             const result = await openai.createChatCompletion({
                 model:"gpt-3.5-turbo",
-                messages: messages,
+                messages: [
+                    { role: "user", content: prompt }
+                ]
             });
-
-            // Update the conversation history with the new message from the user and the response from ChatGPT
-            conversationHistory = [
-                ...messages,
-                { role: "assistant", content: result.data.choices[0]?.message?.content }
-            ];
-
             return res.send(result.data.choices[0]?.message?.content);
         }
         const completion = await openai.createCompletion({
