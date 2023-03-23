@@ -10,6 +10,10 @@ body {
     margin: 0;
 }
 
+* {
+    font-family: 'Poppins', sans-serif;
+  }
+
 select {
     max-width: 100%;
     text-overflow: ellipsis;
@@ -149,6 +153,11 @@ select {
     color: white;
 }
 
+#model-select-container label {
+    font-size: 16px;
+    padding: 10px;
+}
+
 #model-select-container select {
     background: transparent;
     border: none;
@@ -163,6 +172,23 @@ select {
 #model-select-container select option {
     background: rgba(32,33,35,.5);
 }
+
+#model-select {
+    font-size: 16px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    margin-bottom: 20px;
+  }
+  
+  #model-select option {
+    font-size: 16px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+  }
 
 .ai-image {
     width: 500px;
