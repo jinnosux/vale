@@ -94,7 +94,7 @@ app.post('/get-prompt-result', async (req, res) => {
             // Update the conversation history with the new message from the user and the response from ChatGPT
             conversationHistory = [
                 ...messages,
-                { role: "system", content: result.data.choices[0]?.message?.content }
+                { role: "assistant", content: result.data.choices[0]?.message?.content }
             ];
 
             return res.send(result.data.choices[0]?.message?.content);
