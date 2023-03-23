@@ -135,7 +135,7 @@ async function getWhisperResult() {
     }
 }
 
-var context = "";
+let context = "";
 // Add event listener to select element
 contextSelect.addEventListener("change", function() {
 
@@ -152,6 +152,7 @@ contextSelect.addEventListener("change", function() {
     }
   });
 
+console.log(context);
 
 // Function to get GPT result
 async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
@@ -160,8 +161,8 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
         return;
     }
     // Get the prompt input
-    var prompt = "";
-    var input = promptInput.textContent;
+    let prompt = "";
+    let input = promptInput.textContent;
 
     // add context
     if (contextSelect.value !== "1") {
