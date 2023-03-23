@@ -140,15 +140,15 @@ const context = "";
 contextSelect.addEventListener("change", function() {
 
     if (contextSelect.value === "2") {
-        const context = DAN;
+        context = DAN;
     } else if (contextSelect.value === "3") {
-        const context = STAN;
+        context = STAN;
     } else if (contextSelect.value === "4") {
-        const context = DUDE;
+        context = DUDE;
     } else if (contextSelect.value === "5") {
-        const context = VALE;
+        context = VALE;
     } else {
-        const context = "";
+        context = "";
     }
   });
 
@@ -160,13 +160,13 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
         return;
     }
     // Get the prompt input
-    //const prompt = _promptToRetry ?? promptInput.textContent;
+    const prompt = "";
 
     // add context
     if (contextSelect.value !== "1") {
-        const prompt = _promptToRetry ?? (context + promptInput.textContent);
+        prompt = _promptToRetry ?? (context + promptInput.textContent);
     } else {
-        const prompt = _promptToRetry ?? promptInput.textContent;
+        prompt = _promptToRetry ?? promptInput.textContent;
     }
 
     // If a response is already being generated or the prompt is empty, return
