@@ -57,11 +57,11 @@ app.post('/transcribe', upload.single('audio'), async (req, res) => {
     }
 });
 
-let conversationHistory = [];
-
 app.post('/get-prompt-result', async (req, res) => {
     // Get the prompt from the request body
     const {prompt, model = 'gpt'} = req.body;
+
+    let conversationHistory = [];
 
     // Check if prompt is present in the request
     if (!prompt) {
@@ -81,6 +81,7 @@ app.post('/get-prompt-result', async (req, res) => {
             return res.send(result.data.data[0].url);
         }
         if (model === 'chatgpt') {
+
             const messages = [
                 ...conversationHistory,
                 { role: "user", content: prompt }
