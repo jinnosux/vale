@@ -167,7 +167,7 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
 
     // Get the prompt input
     let input = prefix + promptInput.textContent;
-    const prompt = _promptToRetry ?? input;
+    let prompt = _promptToRetry ?? input;
 
     // If a response is already being generated or the prompt is empty, return
     if (isGeneratingResponse || !prompt) {
@@ -182,7 +182,7 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
         // Add the prompt to the response list
         addResponse(true, `<div>${promptInput.textContent}</div>`);
     }
-    
+
     // Clear the prompt input
     promptInput.textContent = '';
     
