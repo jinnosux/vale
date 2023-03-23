@@ -62,25 +62,7 @@ app.post('/transcribe', upload.single('audio'), async (req, res) => {
     }
 });
 
-const contextSelect = document.getElementById("context-select");
 let conversationHistory = [];
-
-// Add event listener to select element
-contextSelect.addEventListener("change", function() {
-    const selectedOption = contextSelect.options[contextSelect.selectedIndex].value;
-    
-    // Define predefined text for each option
-    const predefinedText = {
-      "1": "",
-      "2": DAN,
-      "3": STAN,
-      "4": DUDE,
-      "5": VALE
-    };
-    
-    // Add selected option's predefined text to messages array
-    conversationHistory.push({ role: "user", content: predefinedText[selectedOption] });
-  });
 
 app.post('/get-prompt-result', async (req, res) => {
     // Get the prompt from the request body
