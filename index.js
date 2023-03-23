@@ -17,7 +17,7 @@ app.use(express.json());
 app.use('/', express.static(__dirname + '/client')); // Serves resources from client folder
 
 
-let chatHistory = [];
+const chatHistory = {};
 
 
 // Set up Multer to handle file uploads
@@ -72,10 +72,6 @@ app.post('/get-prompt-result', async (req, res) => {
     }
 
     try {
-
-        let result;
-
-
         // Use the OpenAI SDK to create a completion
         // with the given prompt, model and maximum tokens
         if (model === 'image') {
@@ -87,28 +83,22 @@ app.post('/get-prompt-result', async (req, res) => {
             return res.send(result.data.data[0].url);
         }
         if (model === 'chatgpt') {
-            const lastMessage = chatHistory[chatHistory.length - 1];
-            const messages = lastMessage
-            ? [
-                { role: 'user', content: lastMessage.userMessage },
-                { role: 'model', content: lastMessage.modelResponse },
-                { role: 'user', content: prompt },
-              ]
-            : [{ role: 'user', content: prompt }];
-
+            const chatHistoryForUser = chatHistory[userId] || [];
 
             const result = await openai.createChatCompletion({
                 model:"gpt-3.5-turbo",
-                messages,
+                messages: [
+                    ...chatHistoryForUser,
+                    { role: 'user', content: prompt },
+                ],
             });
 
-            // Save the chat history
-            chatHistory.push({
-                userMessage: prompt,
-                modelResponse: result.data.choices[0]?.text,
-            });
+            const chatHistoryForResponse = result.data.choices[0].message;
 
-            return res.send(result.data.choices[0]?.message?.content, chatHistory);
+            // Save the chat history for the user
+            chatHistory[userId] = [...chatHistoryForUser, ...chatHistoryForResponse];
+
+            return res.send(chatHistoryForResponse.content);
         }
         const completion = await openai.createCompletion({
             model: model === 'gpt' ? "text-davinci-003" : 'code-davinci-002', // model name
