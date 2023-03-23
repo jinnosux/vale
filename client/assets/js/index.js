@@ -135,7 +135,7 @@ async function getWhisperResult() {
     }
 }
 
-const context = "";
+var context = "";
 // Add event listener to select element
 contextSelect.addEventListener("change", function() {
 
