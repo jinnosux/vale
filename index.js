@@ -14,7 +14,7 @@ const openai = new OpenAIApi(configuration);
 
 app.use(cors());
 app.use(express.json());
-app.use('/chat', express.static(__dirname + '/client')); // Serves resources from client folder
+app.use('/', express.static(__dirname + '/client')); // Serves resources from client folder
 
 // Set up Multer to handle file uploads
 const upload = multer({
