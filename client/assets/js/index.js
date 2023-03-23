@@ -220,7 +220,7 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
             responseElement.innerHTML = converter.makeHtml(responseText.trim());
         }
 
-        accumulatedPrompt += "prompt:" + prompt + ";response:" + responseElement.textContent + ". ";
+        accumulatedPrompt += "I've asked a question:" + input + ";You responded:" + responseText + ". ";
 
         promptToRetry = null;
         uniqueIdToRetry = null;
