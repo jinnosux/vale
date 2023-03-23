@@ -135,24 +135,30 @@ async function getWhisperResult() {
     }
 }
 
-let context = "";
-// Add event listener to select element
-contextSelect.addEventListener("change", function() {
 
-    if (contextSelect.value === "2") {
-        context = DAN;
-    } else if (contextSelect.value === "3") {
-        context = STAN;
-    } else if (contextSelect.value === "4") {
-        context = DUDE;
-    } else if (contextSelect.value === "5") {
-        context = VALE;
-    } else {
-        context = "";
+contextSelect.addEventListener("change", () => {
+    const selectedValue = contextSelect.value;
+    let prefix = "";
+  
+    switch (selectedValue) {
+      case "2":
+        prefix = DAN;
+        break;
+      case "3":
+        prefix = STAN;
+        break;
+      case "4":
+        prefix = DUDE;
+        break;
+      case "5":
+        prefix = VALE;
+        break;
+      default:
+        break;
     }
+  
+    promptInput.textContent = prefix + " " + promptInput.textContent;
   });
-
-console.log(context);
 
 // Function to get GPT result
 async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
@@ -161,15 +167,7 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
         return;
     }
     // Get the prompt input
-    let prompt = "";
-    let input = promptInput.textContent;
-
-    // add context
-    if (contextSelect.value !== "1") {
-        prompt = _promptToRetry ?? (context + input);
-    } else {
-        prompt = _promptToRetry ?? input;
-    }
+    const prompt = _promptToRetry ?? promptInput.textContent;
 
     // If a response is already being generated or the prompt is empty, return
     if (isGeneratingResponse || !prompt) {
@@ -184,7 +182,7 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
 
     if (!_uniqueIdToRetry) {
         // Add the prompt to the response list
-        addResponse(true, `<div>${input}</div>`);
+        addResponse(true, `<div>${prompt}</div>`);
     }
 
     // Get a unique ID for the response element
