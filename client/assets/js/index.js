@@ -156,8 +156,6 @@ contextSelect.addEventListener("change", () => {
       default:
         break;
     }
-  
-    promptInput.textContent = prefix + " " + promptInput.textContent;
   });
 
 // Function to get GPT result
@@ -166,8 +164,10 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
         await getWhisperResult();
         return;
     }
+
     // Get the prompt input
-    const prompt = _promptToRetry ?? promptInput.textContent;
+    let input = prefix + promptInput.textContent;
+    const prompt = _promptToRetry ?? input;
 
     // If a response is already being generated or the prompt is empty, return
     if (isGeneratingResponse || !prompt) {
@@ -177,14 +177,15 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
     // Add loading class to the submit button
     submitButton.classList.add("loading");
 
-    // Clear the prompt input
-    promptInput.textContent = '';
-
+    
     if (!_uniqueIdToRetry) {
         // Add the prompt to the response list
-        addResponse(true, `<div>${prompt}</div>`);
+        addResponse(true, `<div>${promptInput.textContent}</div>`);
     }
-
+    
+    // Clear the prompt input
+    promptInput.textContent = '';
+    
     // Get a unique ID for the response element
     const uniqueId = _uniqueIdToRetry ?? addResponse(false);
 
