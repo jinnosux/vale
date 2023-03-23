@@ -160,13 +160,14 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
         return;
     }
     // Get the prompt input
-    const prompt = "";
+    var prompt = "";
+    var input = promptInput.textContent;
 
     // add context
     if (contextSelect.value !== "1") {
-        prompt = _promptToRetry ?? (context + promptInput.textContent);
+        prompt = _promptToRetry ?? (context + input);
     } else {
-        prompt = _promptToRetry ?? promptInput.textContent;
+        prompt = _promptToRetry ?? input;
     }
 
     // If a response is already being generated or the prompt is empty, return
@@ -182,7 +183,7 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
 
     if (!_uniqueIdToRetry) {
         // Add the prompt to the response list
-        addResponse(true, `<div>${prompt}</div>`);
+        addResponse(true, `<div>${input}</div>`);
     }
 
     // Get a unique ID for the response element
