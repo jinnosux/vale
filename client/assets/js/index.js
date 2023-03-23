@@ -135,10 +135,10 @@ async function getWhisperResult() {
     }
 }
 
+let prefix = "";
 
 contextSelect.addEventListener("change", () => {
     const selectedValue = contextSelect.value;
-    let prefix = "";
   
     switch (selectedValue) {
       case "2":
