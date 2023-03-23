@@ -57,6 +57,8 @@ app.post('/transcribe', upload.single('audio'), async (req, res) => {
     }
 });
 
+let conversationHistory = [];
+
 app.post('/get-prompt-result', async (req, res) => {
     // Get the prompt from the request body
     const {prompt, model = 'gpt'} = req.body;
@@ -79,12 +81,22 @@ app.post('/get-prompt-result', async (req, res) => {
             return res.send(result.data.data[0].url);
         }
         if (model === 'chatgpt') {
+            const messages = [
+                ...conversationHistory,
+                { role: "user", content: prompt }
+            ];
+
             const result = await openai.createChatCompletion({
                 model:"gpt-3.5-turbo",
-                messages: [
-                    { role: "user", content: prompt }
-                ]
-            })
+                messages: messages,
+            });
+
+            // Update the conversation history with the new message from the user and the response from ChatGPT
+            conversationHistory = [
+                ...messages,
+                { role: "chatgpt", content: result.data.choices[0]?.message?.content }
+            ];
+
             return res.send(result.data.choices[0]?.message?.content);
         }
         const completion = await openai.createCompletion({
