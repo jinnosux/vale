@@ -16,10 +16,6 @@ app.use(cors());
 app.use(express.json());
 app.use('/', express.static(__dirname + '/client')); // Serves resources from client folder
 
-
-const chatHistory = {};
-
-
 // Set up Multer to handle file uploads
 const upload = multer({
     storage: multer.diskStorage({
@@ -83,22 +79,13 @@ app.post('/get-prompt-result', async (req, res) => {
             return res.send(result.data.data[0].url);
         }
         if (model === 'chatgpt') {
-            const chatHistoryForUser = chatHistory[userId] || [];
-
             const result = await openai.createChatCompletion({
                 model:"gpt-3.5-turbo",
                 messages: [
-                    ...chatHistoryForUser,
-                    { role: 'user', content: prompt },
-                ],
-            });
-
-            const chatHistoryForResponse = result.data.choices[0].message;
-
-            // Save the chat history for the user
-            chatHistory[userId] = [...chatHistoryForUser, ...chatHistoryForResponse];
-
-            return res.send(chatHistoryForResponse.content);
+                    { role: "user", content: prompt }
+                ]
+            })
+            return res.send(result.data.choices[0]?.message?.content);
         }
         const completion = await openai.createCompletion({
             model: model === 'gpt' ? "text-davinci-003" : 'code-davinci-002', // model name
