@@ -135,19 +135,21 @@ async function getWhisperResult() {
     }
 }
 
+const context = "";
 // Add event listener to select element
 contextSelect.addEventListener("change", function() {
-    // Get selected option
-    const selectedOption = contextSelect.options[contextSelect.selectedIndex].value;
-    
-    // Define predefined text for each option
-    const predefinedText = {
-      "1": "",
-      "2": DAN,
-      "3": STAN,
-      "4": DUDE,
-      "5": VALE
-    };
+
+    if (contextSelect.value === "2") {
+        const context = DAN;
+    } else if (contextSelect.value === "3") {
+        const context = STAN;
+    } else if (contextSelect.value === "4") {
+        const context = DUDE;
+    } else if (contextSelect.value === "5") {
+        const context = VALE;
+    } else {
+        const context = "";
+    }
   });
 
 
@@ -161,8 +163,8 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
     //const prompt = _promptToRetry ?? promptInput.textContent;
 
     // add context
-    if (selectedOption !== "1") {
-        const prompt = predefinedText[selectedOption] + " " + promptInput.textContent;
+    if (contextSelect.value !== "1") {
+        const prompt = _promptToRetry ?? (context + promptInput.textContent);
     } else {
         const prompt = _promptToRetry ?? promptInput.textContent;
     }
