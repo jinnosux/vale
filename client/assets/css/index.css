@@ -47,6 +47,8 @@ select {
         max-width: 100%;
     }
 }
+
+
 #response-list .response-container .avatar-image {
     width: 30px;
     height: 30px;
@@ -265,4 +267,18 @@ select {
 
 .hljs-link, .hljs-operator, .hljs-regexp, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-symbol, .hljs-template-variable, .hljs-variable {
     color: white !important;
+}
+
+
+@media (max-width: 767px) {
+
+    .model-select-wrapper {
+        flex-direction: column;
+    }
+    #model-select{
+        width: 100%;
+    }
+    #context-select{
+        width: 100%;
+    }
 }
