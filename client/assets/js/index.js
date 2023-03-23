@@ -153,6 +153,8 @@ contextSelect.addEventListener("change", () => {
     }
   });
 
+let accumulatedPrompt = '';
+
 // Function to get GPT result
 async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
     if (modelSelect.value === 'whisper') {
@@ -161,7 +163,7 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
     }
 
     // Get the prompt input
-    let input = prefix + promptInput.textContent;
+    let input = prefix + accumulatedPrompt + promptInput.textContent;
     let prompt = _promptToRetry ?? input;
 
     // If a response is already being generated or the prompt is empty, return
@@ -217,6 +219,8 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
             // Set the response text
             responseElement.innerHTML = converter.makeHtml(responseText.trim());
         }
+
+        accumulatedPrompt += "prompt:" + prompt + ";response:" + responseElement.textContent + ". ";
 
         promptToRetry = null;
         uniqueIdToRetry = null;
