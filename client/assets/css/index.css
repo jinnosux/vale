@@ -42,9 +42,10 @@ select {
 }
 
 #bottom-container p {
-  text-align: right;
+  text-align: center;
   font-size: 8px;
-  margin-bottom: 0px;
+  margin-bottom: -5px;
+  color: teal;
 }
 
 @media (pointer: none), (pointer: coarse) {

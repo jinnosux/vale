@@ -9,6 +9,7 @@ const promptInput = document.getElementById("prompt-input");
 const modelSelect = document.getElementById("model-select");
 const responseList = document.getElementById("response-list");
 const fileInput = document.getElementById("whisper-file");
+const ContextSelectContainer = document.getElementById("context-select-container");
 const contextSelect = document.getElementById("context-select");
 
 const RANT =
@@ -27,12 +28,12 @@ modelSelect.addEventListener("change", function () {
     // used for whisper, temp disabled
     //fileInput.style.display = "block";
     //promptInput.style.display = 'none';
-    contextSelect.style.display = "block";
+    ContextSelectContainer.style.display = "block";
   } else {
     fileInput.style.display = "none";
     // Enable the input field when Whisper is not selected
     promptInput.style.display = "block";
-    contextSelect.style.display = "none";
+    ContextSelectContainer.style.display = "none";
   }
 });
 
@@ -88,7 +89,7 @@ function loader(element) {
 
 function setErrorForResponse(element, message) {
   element.innerHTML = message;
-  element.style.color = "rgb(200, 0, 0)";
+  element.style.color = "#d94753";
 }
 
 function setRetryResponse(prompt, uniqueId) {
