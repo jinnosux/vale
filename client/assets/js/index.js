@@ -249,8 +249,6 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
     history.push({ type: "USER", text: "I've asked: " + tempPromptInput + " | " });
     history.push({ type: "ASSISTANT", text: "You Responded: " + responseText + " | " });
 
-    console.log("PROMPT:" + prompt + "ENDPROMPT");
-
     // Check if history is over the token limit
     let numTokens = history.reduce((sum, item) => sum + Math.ceil(item.text.length / 4), 0);
     while (numTokens > MAX_TOKENS) {
