@@ -169,16 +169,13 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
   }
 
   // Get the prompt input to generate prompt
-  let input = (history.some(item => item.type === 'prefix') ? '' : prefix) + history.map(item => item.text).join("") + promptInput.textContent;
+  let input = (history.some(item => item.type === 'prefix') ? '' : prefix) + history.map(item => item.text).join("") + history.filter(item => item.type === 'USER').map(item => `USER: ${item.text}\n`).join("") + promptInput.textContent;
   let prompt = _promptToRetry ?? input;
 
   // If a response is already being generated or the prompt is empty, return
   if (isGeneratingResponse || !prompt) {
     return;
   }
-
-  console.log("PROMPT:" + prompt + "ENDPROMPT");
-  console.log("HISTORY:" + history.map(item => item.text).join("") + "ENDHISTORY");
 
   // Add loading class to the submit button
   submitButton.classList.add("loading");
@@ -232,6 +229,9 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
     
     history.push({ type: "USER", text: promptInput.textContent });
     history.push({ type: "ASSISTANT", text: responseText });
+
+    console.log("PROMPT:" + prompt + "ENDPROMPT");
+    console.log("HISTORY:" + history.map(item => item.text).join("") + "ENDHISTORY");
 
     promptToRetry = null;
     uniqueIdToRetry = null;
