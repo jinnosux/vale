@@ -134,7 +134,7 @@ async function getWhisperResult() {
 }
 
 let prefix = "";
-let accumulatedPrompt = "";
+let history = [];
 
 contextSelect.addEventListener("change", () => {
   const selectedValue = contextSelect.value;
@@ -156,6 +156,9 @@ contextSelect.addEventListener("change", () => {
     default:
       break;
   }
+
+  history.push({ type: 'prefix', text: prefix });
+  
 });
 
 // Function to get GPT result
@@ -166,17 +169,16 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
   }
 
   // Get the prompt input to generate prompt
-  let input = prefix + accumulatedPrompt + promptInput.textContent;
+  let input = (history.some(item => item.type === 'prefix') ? '' : prefix) + history.map(item => item.text).join("") + promptInput.textContent;
   let prompt = _promptToRetry ?? input;
-
-  let inputWithoutPrefix = accumulatedPrompt + promptInput.textContent;
 
   // If a response is already being generated or the prompt is empty, return
   if (isGeneratingResponse || !prompt) {
     return;
   }
 
-  console.log(prompt);
+  console.log("PROMPT:" + prompt + "ENDPROMPT");
+  console.log("HISTORY:" + history.map(item => item.text).join("") + "ENDHISTORY");
 
   // Add loading class to the submit button
   submitButton.classList.add("loading");
@@ -226,7 +228,10 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
       responseElement.innerHTML = converter.makeHtml(responseText.trim());
     }
 
-    accumulatedPrompt += "I've asked a question:" + inputWithoutPrefix + ";You responded:" + responseText + ". ";
+    //history += "I've asked a question:" + inputWithoutPrefix + ";You responded:" + responseText + "now I ask";
+    
+    history.push({ type: "USER", text: promptInput.textContent });
+    history.push({ type: "ASSISTANT", text: responseText });
 
     promptToRetry = null;
     uniqueIdToRetry = null;
