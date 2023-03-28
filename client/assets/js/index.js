@@ -180,7 +180,7 @@ contextSelect.addEventListener("change", () => {
     history = [];
   }
 
-  history.push({ type: "prefix", text: prefix });
+  history.push({ type: "system", text: prefix });
 });
 
 // Function to get GPT result
@@ -191,7 +191,10 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
   }
 
   // Get the prompt input to generate prompt
-  let input = (history.some((item) => item.type === "prefix") ? "" : prefix) + history.map((item) => item.text).join("") + promptInput.textContent;
+  //let input = (history.some((item) => item.type === "system") ? "" : prefix) + history.map((item) => item.text).join("") + promptInput.textContent;
+
+  let input = history.push({ type: "user", text: promptInput.textContent });
+
   let prompt = _promptToRetry ?? input;
 
   // If a response is already being generated or the prompt is empty, return
@@ -247,9 +250,11 @@ async function getGPTResult(_promptToRetry, _uniqueIdToRetry) {
       responseElement.innerHTML = converter.makeHtml(responseText.trim());
     }
 
-    history.push({ type: "USER", text: "I've asked: " + tempPromptInput + " | " });
-    history.push({ type: "ASSISTANT", text: "You Responded: " + responseText + " | " });
+    //history.push({ type: "user", text: tempPromptInput});
+    history.push({ type: "assistant", text: responseText});
 
+    console.log(history);
+    
     // Check if history is over the token limit
     let numTokens = history.reduce((sum, item) => sum + Math.ceil(item.text.length / 4), 0);
     while (numTokens > MAX_TOKENS) {
