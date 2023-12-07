@@ -89,7 +89,7 @@ app.post('/get-prompt-result', async (req, res) => {
         }
         if (model === 'chatgpt4') {
             const result = await openai.createChatCompletion({
-                model:"gpt-4",
+                model:"gpt-4-1106-preview",
                 messages: [
                     { role: "user", content: prompt }
                 ]
